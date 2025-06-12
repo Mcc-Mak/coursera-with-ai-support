@@ -1,4 +1,8 @@
 # keycloak-server (Port 8080)
+## Installation
+Run `bash INSTALL`
+## How to start server?
+Run `/opt/keycloak/bin/kc.sh start-dev`
 ## Settings
 |Parameter(s)|Value<br/>(Default)|
 |---|---|

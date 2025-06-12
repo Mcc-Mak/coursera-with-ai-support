@@ -1,4 +1,6 @@
 # flask-server (Port 8899)
+## Installation
+Run `bash INSTALL`
 ## How to start server?
 Run `python start.py`
 ## Secret

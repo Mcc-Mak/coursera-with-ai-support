@@ -1,0 +1,1 @@
+docker exec -it fs-reactjs-server bash

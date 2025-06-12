@@ -1,0 +1,26 @@
+
+CONTAINER=fs-reactjs-server
+IMAGE=fs-reactjs
+
+docker rm -f $CONTAINER 2>/dev/null
+docker rmi -f $IMAGE:latest 2>/dev/null
+
+docker build -t $IMAGE:latest .
+if [[ $? != 0 ]]
+then
+    docker rmi $(docker images -q --filter dangling=true) 2>/dev/null
+    exit
+fi
+
+docker run -itd \
+    --name $CONTAINER \
+    --hostname $CONTAINER \
+	--restart always \
+	--network "sso_auth_server" \
+	-p "9001:8080" \
+	$IMAGE:latest
+if [[ $? != 0 ]]
+then
+    docker rm $(docker ps -q --filter status=exited) 2>/dev/null
+    exit
+fi
