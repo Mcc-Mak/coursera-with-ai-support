@@ -15,6 +15,7 @@ fi
 yes | docker run -itd \
     --name $CONTAINER \
     --hostname $CONTAINER \
+    -e CI=true \
 	--restart always \
 	--network "sso_auth_server" \
 	-p "9001:3000" \
