@@ -9,7 +9,7 @@ Run `bash install.sh`
 ## Architecture
 |Structure|Status|Server Name|External Port|Internal Port|
 |---|---|---|---|---|
-|Frontend|:red_circle:|ReactJS-server|Port 9001|Port 3000|
+|Frontend|:orange_circle:|ReactJS-server|Port 9001|Port 3000|
 |Backend|:green_circle:|Flask-server|Port 8899|Port 5000|
 |Backend|:green_circle:|Keycloak-server|Port 8080<br/>(n.a.)<br/>(n.a.)|Port 8080<br/>Port 8443<br/>Port 9000|
 |Database|:green_circle:|Keycloak-MariaDB-server|(n.a.)<br/>(n.a.)|Port 3306<br/>Port 33060|
@@ -32,3 +32,7 @@ Run `bash install.sh`
     - Keycloak-server
       - `Keycloak Configuration`
 ## Network
+## Reference
+- GitHub Flavored Markdown (GHFM)
+  - (Basic writing and formatting syntax)[https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax]
+  - (Emoji)[https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md]

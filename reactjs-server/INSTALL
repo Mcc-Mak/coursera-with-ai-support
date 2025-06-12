@@ -17,7 +17,7 @@ docker run -itd \
     --hostname $CONTAINER \
 	--restart always \
 	--network "sso_auth_server" \
-	-p "9001:8080" \
+	-p "9001:3000" \
 	$IMAGE:latest
 if [[ $? != 0 ]]
 then
