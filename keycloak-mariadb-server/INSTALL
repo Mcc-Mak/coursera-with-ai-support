@@ -1,0 +1,28 @@
+
+CONTAINER=bs-keycloak-mariadb-server
+IMAGE=bs-keycloak-mariadb
+
+docker rm -f $CONTAINER 2>/dev/null
+docker rmi -f $IMAGE:latest 2>/dev/null
+
+docker build \
+	-t $IMAGE:latest .
+if [[ $?! = 0 ]]
+then
+        docker rmi $(docker images --filter dangling=true -aq) nil 2>/dev/null
+        exit;
+fi
+
+docker run -itd \
+	--name $CONTAINER \
+	--hostname $CONTAINER \
+	--workdir "/var/www/html/" \
+	--restart always \
+	--network "sso_auth_server" \
+	-p "8090:80" \
+	$IMAGE:latest
+if [[ $?! = 0 ]]
+then
+	docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null
+	exit;
+fi

@@ -1,0 +1,2 @@
+
+docker exec -it -uroot bs-keycloak-server bash

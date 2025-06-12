@@ -1,0 +1,30 @@
+
+CONTAINER=bs-keycloak-server
+IMAGE=bs-keycloak
+
+docker rm -f $CONTAINER 2>/dev/null
+docker rmi -f $IMAGE:latest 2>/dev/null
+
+KEYCLOAK_MARIADB_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" bs-keycloak-mariadb-server)
+docker build \
+	--build-arg "KEYCLOAK_MARIADB_IP_ADDRESS="$KEYCLOAK_MARIADB_IP_ADDRESS \
+	-t $IMAGE:latest .
+if [[ $?! = 0 ]]
+then
+	docker rmi $(docker images --filter dangling=true -aq) nil 2>/dev/null
+	exit;
+fi
+
+docker run -itd \
+	--name $CONTAINER \
+	--hostname $CONTAINER \
+	--workdir "/opt/keycloak" \
+	--restart always \
+	--network "sso_auth_server" \
+	-p "8080:8080" \
+	$IMAGE:latest
+if [[ $?! = 0 ]]
+then
+	docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null;
+	exit;
+fi
