@@ -1,6 +1,7 @@
-from flask import Flask, redirect, url_for, render_template, request , session , jsonify
+from flask import Flask, redirect, url_for, render_template, request , session , jsonify, send_from_directory
 from flask_oidc import OpenIDConnect
 import requests, json, base64
+from api import *
 
 #
 # TODO: Incapable to refresh
@@ -91,11 +92,21 @@ def index():
             msg = None
         return render_template('login.html', msg=msg)
 
+# @app.route('/static/<path:path>')
+# def donwload_static(path):
+#     return send_from_directory('static', path)
+
+def demo():
+    return render_template("demo.html")
+
 if __name__ == '__main__':
+    # Demo
+    app.add_url_rule("/demo", "demo", demo)
+    # Auth
     app.add_url_rule("/", "index", index)
     app.add_url_rule("/login", "login", login, methods=["POST"])
     app.add_url_rule("/log-out", "logout", logout, methods=["POST"])
-    from api import *
+    # API
     app.add_url_rule("/api/GetProgramPreview", "GetProgramPreview", GetProgramPreview, methods=["GET"])
     app.add_url_rule("/api/GetProgramInfo", "GetProgramInfo", GetProgramInfo, methods=["GET"])
     app.run(host="0.0.0.0", port=5000, debug=True)
