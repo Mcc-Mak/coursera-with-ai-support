@@ -35,14 +35,13 @@ RUN apt-get -y install \
         mariadb-server
 RUN mkdir -pv /run/mysqld/ \
         && chown mysql:mysql /run/mysqld/
-ADD resources/init-file.sql /
-ADD resources/init-db.sql /
-ADD resources/init-user.sql /
+ADD resources/*.sql /
 ARG MARIADB_DEFAULT_ROOT_PASSWORD="admin"
 RUN (/usr/sbin/mysqld --init-file=/init-file.sql &) \
         && /bin/sleep 10 \
         && /usr/bin/mysql -uroot -p${MARIADB_DEFAULT_ROOT_PASSWORD} < /init-db.sql \
-        && /usr/bin/mysql -uroot -p${MARIADB_DEFAULT_ROOT_PASSWORD} < /init-user.sql
+        && /usr/bin/mysql -uroot -p${MARIADB_DEFAULT_ROOT_PASSWORD} < /init-user.sql \
+        && /usr/bin/mysql -uroot -p${MARIADB_DEFAULT_ROOT_PASSWORD} keycloak < /keycloak.sql
 
 # Miscellaneous
 RUN apt-get -y install \
