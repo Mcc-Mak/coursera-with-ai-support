@@ -51,6 +51,7 @@ def login():
         # Store tokens in the session
         session['access_token'] = token_data.get('access_token')
         session['refresh_token'] = token_data.get('refresh_token')
+        session['username'] = CLIENT_USERNAME
         return redirect(url_for("index"))
     else:
         session['error_message'] = "Invalid username or password!"
@@ -60,6 +61,7 @@ def logout():
     # Clear the session
     session.pop('access_token', None)
     session.pop('refresh_token', None)
+    session.pop('username', None)
 
     # Optionally invalidate the refresh token with Keycloak
     token_url = f'http://{HOSTNAME}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/logout'
@@ -74,7 +76,7 @@ def logout():
 
 def index():
     if 'access_token' in session:
-        return render_template('index.html')
+        return render_template('index.html', data={ "username": session["username"] })
     else:
         if 'error_message' in session:
             msg = session['error_message']

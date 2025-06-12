@@ -31,12 +31,15 @@
                     {{ msg }}
                 </div>
             {% endif %}
-            <div>
-                <a target="_blank" href="http://192.168.68.130:8080/realms/flask-sso-auth-service/account">User Portal</a>
-                <a target="_blank" href="http://192.168.68.130:8080/" style="padding-left:10px!important">Admin Portal</a>
+            <div class="pb-2">
+                <span>User:&nbsp;&nbsp;</span>
+                <a target="_blank" href="http://192.168.68.130:8080/realms/flask-sso-auth-service/account">Portal</a>
             </div>
             <div>
-                <a target="_blank" href="http://192.168.68.130:8090/" style="color:chocolate">Admin (DB)</a>
+                <span>Admin:&nbsp;&nbsp;</span>
+                <a target="_blank" href="http://192.168.68.130:8080/">Portal</a>
+                <span>&nbsp;&nbsp;</span>
+                <a target="_blank" href="http://192.168.68.130:8090/" class="text-success">PhpMyAdmin</a>
             </div>
             <div class="d-flex justify-content-end mt-4">
                 <button class="btn btn-success">login</button>
