@@ -12,8 +12,6 @@ COPY ./src/ ./src
 # Install dependencies
 RUN npm install
 
-RUN npm run add-default-browsers || true 
-
 # Copy the rest of your application files
 COPY . .
  

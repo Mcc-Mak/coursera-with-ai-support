@@ -12,7 +12,7 @@ then
     exit
 fi
 
-docker run -itd \
+yes | docker run -itd \
     --name $CONTAINER \
     --hostname $CONTAINER \
 	--restart always \
