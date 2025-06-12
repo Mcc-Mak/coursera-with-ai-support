@@ -76,7 +76,13 @@ def logout():
 
 def index():
     if 'access_token' in session:
-        return render_template('index.html', data={ "username": session["username"] })
+        return render_template(
+            'index.html',
+            data={
+                "username": session["username"],
+                "apis": [ "/api/GetProgramPreview", "/api/GetProgramInfo" ]
+            }
+        )
     else:
         if 'error_message' in session:
             msg = session['error_message']
@@ -89,4 +95,7 @@ if __name__ == '__main__':
     app.add_url_rule("/", "index", index)
     app.add_url_rule("/login", "login", login, methods=["POST"])
     app.add_url_rule("/log-out", "logout", logout, methods=["POST"])
+    from api import *
+    app.add_url_rule("/api/GetProgramPreview", "GetProgramPreview", GetProgramPreview, methods=["GET"])
+    app.add_url_rule("/api/GetProgramInfo", "GetProgramInfo", GetProgramInfo, methods=["GET"])
     app.run(host="0.0.0.0", port=5000, debug=True)

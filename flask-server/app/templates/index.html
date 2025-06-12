@@ -16,8 +16,8 @@
 <body>
     <div class="d-flex flex-column m-5">
         <div class="row">
-            <div class="w-75">
-                <h1 class="text-decoration-underline fw-bold mt-3">Notification</h1>
+            <div class="col w-75">
+                <h1 class="mt-3">&#128073&nbsp;<p class="text-decoration-underline fw-bold">API(s)</p></h1>
             </div>
             <div class="alert alert-info w-25">
                 <div class="d-flex justify-content-start">
@@ -34,7 +34,12 @@
                 </div>
             </div>
         </div>
-        <p class="pt-4">Successfully logged in!!</p>
+        <!-- <p class="pt-4">Successfully logged in!!</p> -->
+        <div class="row">
+            {% for api in data.apis %}
+                <a target="_blank" href="{{api}}" class="m-3">{{api}}</a>
+            {% endfor %}
+        </div>
         <hr class="p-3 w-50" />
         <form method="post" action="/log-out">
             <button class="btn btn-danger text-decoration-underline">logout</button>
