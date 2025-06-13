@@ -11,6 +11,9 @@ RUN apk add \
 # COMMENT: Uncomment 
 #
 # RUN npx create-react-app --verbose /app
+# RUN npm install react-bootstrap bootstrap
+# RUN npm install --save @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome
+# RUN npm install
  
 # Expose the port your app runs on
 # EXPOSE 3000
