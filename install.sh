@@ -19,5 +19,11 @@ SRV="keycloak-server"
 printf "\n\n[INFO] Installing '%s'..." "$SRV"
 cd $SRV
 bash INSTALL
+cd ..
+
+SRV="reactjs-server"
+printf "\n\n[INFO] Installing '%s'..." "$SRV"
+cd $SRV
+bash INSTALL
 
 docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null
