@@ -31,8 +31,8 @@ function App() {
           <Col sm={8}>
             <AppContent />
           </Col>
-          <Col sm={2}>
-            b
+          <Col sm={2} className={["border-start"]}>
+            
           </Col>
         </Row>
     </div>
