@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request , session ,
 from flask_oidc import OpenIDConnect
 import requests, json, base64
 from api import *
+from flask_cors import CORS, cross_origin
 
 #
 # TODO: Incapable to refresh
@@ -11,6 +12,8 @@ from api import *
 g_CLIENT_SECRET = "gik4U0mU0xQ2EGBOEQlv8zzyUSmr7U9M"
 
 app = Flask(__name__)
+cors = CORS(app) # allow CORS for all domains on all routes.
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['SECRET_KEY'] = g_CLIENT_SECRET
 app.debug = True
 
@@ -92,20 +95,23 @@ def index():
             msg = None
         return render_template('login.html', msg=msg)
 
+@cross_origin()
+def validateToken():
+    if 'access_token' in session:
+        return json.dumps({"isValidToken": True},indent=4)
+    else:
+        return json.dumps({"isValidToken": False},indent=4)
+
 # @app.route('/static/<path:path>')
 # def donwload_static(path):
 #     return send_from_directory('static', path)
 
-def demo():
-    return render_template("demo.html")
-
 if __name__ == '__main__':
-    # Demo
-    app.add_url_rule("/demo", "demo", demo)
     # Auth
     app.add_url_rule("/", "index", index)
     app.add_url_rule("/login", "login", login, methods=["POST"])
     app.add_url_rule("/log-out", "logout", logout, methods=["POST"])
+    app.add_url_rule("/validateToken", "validateToken", validateToken)
     # API
     app.add_url_rule("/api/GetProgramPreview", "GetProgramPreview", GetProgramPreview, methods=["GET"])
     app.add_url_rule("/api/GetProgramInfo", "GetProgramInfo", GetProgramInfo, methods=["GET"])

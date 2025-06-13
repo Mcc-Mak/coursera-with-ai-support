@@ -31,7 +31,9 @@ Run `bash install.sh`
       - pypi:`flask_oidc`
     - Keycloak-server
       - `Keycloak Configuration`
-## Network
+## Issue
+- Session found in `Flask` but not for `ReactJS` after login, due to non-persistent data in `Flask`.
+  - Proposed Solution: Store session data in persistent layer (MariaDB). Validate session data according to DB during authentication.
 ## Reference
 - GitHub Flavored Markdown (GHFM)
   - (Basic writing and formatting syntax)[https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax]
