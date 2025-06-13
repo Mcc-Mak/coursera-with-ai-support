@@ -12,10 +12,10 @@ then
     exit
 fi
 
-yes | docker run -itd \
+docker run -itd \
     --name $CONTAINER \
     --hostname $CONTAINER \
-    -e CI=true \
+    --volume "./app:/app:z" \
 	--restart always \
 	--network "sso_auth_server" \
 	-p "9001:3000" \

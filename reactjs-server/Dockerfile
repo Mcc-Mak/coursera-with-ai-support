@@ -1,19 +1,16 @@
 # Use the latest LTS version of Node.js
 FROM node:24-alpine
  
-# Set the working directory inside the container
+USER root
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY ./package*.json ./
-COPY ./public/ ./public
-COPY ./src/ ./src
- 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of your application files
-COPY . .
+RUN apk update
+RUN apk add \
+        git
+#
+# COMMENT: Uncomment 
+#
+# RUN npx create-react-app --verbose /app
  
 # Expose the port your app runs on
 # EXPOSE 3000
