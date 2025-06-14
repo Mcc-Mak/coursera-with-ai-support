@@ -1,11 +1,41 @@
 # coursera-with-ai-support
 ## Pre-requisite(s)
 1. OS: `Ubuntu 24.04` or above
-2. Installed `docker`
+2. Containerization: `docker (27.5.1)`
+```
+root@ccmak-server:/home/ccmak/coursera-with-ai-support/flask-server# docker version
+Client:
+ Version:           27.5.1
+ API version:       1.47
+ Go version:        go1.22.2
+ Git commit:        27.5.1-0ubuntu3~24.04.2
+ Built:             Mon Jun  2 11:51:53 2025
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server:
+ Engine:
+  Version:          27.5.1
+  API version:      1.47 (minimum version 1.24)
+  Go version:       go1.22.2
+  Git commit:       27.5.1-0ubuntu3~24.04.2
+  Built:            Mon Jun  2 11:51:53 2025
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.27
+  GitCommit:
+ runc:
+  Version:          1.2.5-0ubuntu1~24.04.1
+  GitCommit:
+ docker-init:
+  Version:          0.19.0
+  GitCommit:
+```
 ## Deployment
 Run `bash install.sh`
 ## Demonstration
-- :red_circle: (Click to watch)[demo.mp4]
+- :green_circle: [**demo-2025.06.14.mp4**](https://drive.google.com/file/d/1ebymGnPem0aC23wOTrkaC-koj77vbtmd/view?usp=drive_link)
 ## Architecture
 |Structure|Status|Server Name|External Port|Internal Port|
 |---|---|---|---|---|
@@ -22,19 +52,17 @@ Run `bash install.sh`
     - `Git`
 - Server
   - Frontend
-    - (Not Started) ReactJS-server
+    - :orange_circle: ReactJS-server
       - `npm`
       - `ReactJS`
   - Backend
     - Flask-server
-      - pypi:`flask`
-      - pypi:`flask_oidc`
+      - `Python` (PyPi: `flask`, `flask_oidc`)
     - Keycloak-server
       - `Keycloak Configuration`
-## Issue
-- Session found in `Flask` but not for `ReactJS` after login, due to non-persistent data in `Flask`.
-  - Proposed Solution: Store session data in persistent layer (MariaDB). Validate session data according to DB during authentication.
+    - Keycloak-mariadb-server
+      - `MariaDB`
 ## Reference
 - GitHub Flavored Markdown (GHFM)
-  - (Basic writing and formatting syntax)[https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax]
-  - (Emoji)[https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md]
+  - [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+  - [Emoji](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
