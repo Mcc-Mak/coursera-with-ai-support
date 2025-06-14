@@ -3,8 +3,6 @@
 Run `bash INSTALL`
 ## How to start server?
 Run `python start.py`
-## Secret
-- :green_circle: App password: `tgib zvqh samm utok`
 ## Reference
 - Project
   - [Flask with Keycloak](https://github.com/iotstation/UserManagement_Keycloack_OIDC.git)
