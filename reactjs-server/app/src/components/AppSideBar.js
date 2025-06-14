@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import {
-    Container,
     Nav,
-    Navbar,
     // NavDropdown
-    Button,
     Collapse,
     ListGroup,
     Image
@@ -12,9 +9,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCirclePlus,
-  faChalkboardUser,
-  faComment,
-  faGear
 } from '@fortawesome/free-solid-svg-icons';
 
 function AppSideBar() {

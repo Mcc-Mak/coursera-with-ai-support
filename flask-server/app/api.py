@@ -1,8 +1,30 @@
 from flask import Flask, request, session
 from json import *
+import mariadb
+
+def isAuthenticated():
+    # SQL (R)
+    conn = mariadb.connect(
+        host="172.18.0.5",
+        user="root",
+        password="admin",
+        database="c_keycloak_storage"
+    )
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT * FROM c_keycloak_storage.access_token_storage WHERE username = ? AND access_token = ? AND user_ip_addr = ?",
+        (
+            session.get("username", ""),
+            session.get("access_token", ""),
+            request.remote_addr
+        )
+    )
+    t_sessions = cur.fetchall()
+    conn.close()
+    return len(t_sessions)>0
 
 def validate_access_token(response):
-    if not 'access_token' in session:
+    if not isAuthenticated():
         return dumps({"error": "Authentication failed!"})
     else:
         return response

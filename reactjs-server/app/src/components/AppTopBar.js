@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     Container,
     Nav,
@@ -11,7 +10,6 @@ import {
   faCirclePlus,
   faChalkboardUser,
   faComment,
-  faSortDown,
   // faGear
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -48,7 +46,9 @@ function AppTopBar() {
               <NavDropdown title="" id="basic-nav-dropdown" style={toolbarIcon.style}>
                 <NavDropdown.Item href="#" className={["text-success"]}>Setting</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#" className={["text-danger"]}>Logout</NavDropdown.Item>
+                <NavDropdown.Item href="http://192.168.68.130:8899/log-out" className={["text-danger"]}>
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

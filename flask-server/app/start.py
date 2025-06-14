@@ -3,6 +3,8 @@ from flask_oidc import OpenIDConnect
 import requests, json, base64
 from api import *
 from flask_cors import CORS, cross_origin
+from datetime import datetime
+import mariadb
 
 #
 # TODO: Incapable to refresh
@@ -56,12 +58,47 @@ def login():
         session['access_token'] = token_data.get('access_token')
         session['refresh_token'] = token_data.get('refresh_token')
         session['username'] = CLIENT_USERNAME
+        # SQL (C)
+        conn = mariadb.connect(
+            host="172.18.0.5",
+            user="root",
+            password="admin",
+            database="c_keycloak_storage"
+        )
+        conn.autocommit = False
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO c_keycloak_storage.access_token_storage (username, access_token, user_ip_addr) VALUES (?, ?, ?)",
+            (session["username"], session["access_token"], request.remote_addr)
+        )
+        conn.commit()
+        conn.close()
         return redirect(url_for("index"))
     else:
         session['error_message'] = "Invalid username or password!"
         return redirect(url_for("index"))
 
+@cross_origin()
 def logout():
+    # SQL (D)
+    conn = mariadb.connect(
+        host="172.18.0.5",
+        user="root",
+        password="admin",
+        database="c_keycloak_storage"
+    )
+    conn.autocommit = False
+    cur = conn.cursor()
+    cur.execute(
+        "DELETE FROM c_keycloak_storage.access_token_storage WHERE username = ? AND user_ip_addr = ?",
+        (session["username"], request.remote_addr)
+    )
+    # cur.execute(
+    #     "DELETE FROM c_keycloak_storage.access_token_storage WHERE username = ? AND access_token = ? AND user_ip_addr = ?",
+    #     (session["username"], session["access_token"], request.remote_addr)
+    # )
+    conn.commit()
+    conn.close()
     # Clear the session
     session.pop('access_token', None)
     session.pop('refresh_token', None)
@@ -79,14 +116,15 @@ def logout():
     return redirect(url_for("index"))
 
 def index():
-    if 'access_token' in session:
-        return render_template(
-            'index.html',
-            data={
-                "username": session["username"],
-                "apis": [ "/api/GetProgramPreview", "/api/GetProgramInfo" ]
-            }
-        )
+    if isAuthenticated():
+        # return render_template(
+        #     'index.html',
+        #     data={
+        #         "username": session.get("username",""),
+        #         "apis": [ "/api/GetProgramPreview", "/api/GetProgramInfo" ]
+        #     }
+        # )
+        return redirect("http://192.168.68.130:9001/")
     else:
         if 'error_message' in session:
             msg = session['error_message']
@@ -95,9 +133,40 @@ def index():
             msg = None
         return render_template('login.html', msg=msg)
 
+def isAuthenticated():
+    # SQL (R)
+    try:
+        conn = mariadb.connect(
+            host="172.18.0.5",
+            user="root",
+            password="admin",
+            database="c_keycloak_storage"
+        )
+        cur = conn.cursor()
+        # Per IP
+        cur.execute(
+            f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}'"
+        )
+        # # Per IP+USER+TOKEN
+        # cur.execute(
+        #     "SELECT * FROM c_keycloak_storage.access_token_storage WHERE username = ? AND access_token = ? AND user_ip_addr = ?",
+        #     (
+        #         session.get("username", ""),
+        #         session.get("access_token", ""),
+        #         request.remote_addr
+        #     )
+        # )
+        t_sessions = cur.fetchall()
+        result = 1 if len(t_sessions)>0 else 0
+    except:
+        result = 0
+    finally:
+        conn.close()
+    return result
+
 @cross_origin()
 def validateToken():
-    if 'access_token' in session:
+    if isAuthenticated():
         return json.dumps({"isValidToken": True},indent=4)
     else:
         return json.dumps({"isValidToken": False},indent=4)
@@ -110,7 +179,7 @@ if __name__ == '__main__':
     # Auth
     app.add_url_rule("/", "index", index)
     app.add_url_rule("/login", "login", login, methods=["POST"])
-    app.add_url_rule("/log-out", "logout", logout, methods=["POST"])
+    app.add_url_rule("/log-out", "logout", logout, methods=["POST", "GET"])
     app.add_url_rule("/validateToken", "validateToken", validateToken)
     # API
     app.add_url_rule("/api/GetProgramPreview", "GetProgramPreview", GetProgramPreview, methods=["GET"])

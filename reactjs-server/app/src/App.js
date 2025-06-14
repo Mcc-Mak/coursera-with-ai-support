@@ -1,8 +1,7 @@
 // Script
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import {
-  Container,
   Row,
   Col
 } from 'react-bootstrap';
@@ -12,49 +11,51 @@ import AppContent from './components/AppContent';
 // Style
 import './App.css';
 
-const GetRqeust = async (url) => {
-  return await axios.get(baseURL);
-};
+function App() {
+    const [isValidToken, setIsValidToken] = useState(null); // Track token validation status
+    const baseURL = "http://192.168.68.130:8899/validateToken";
 
-const baseURL = "http://192.168.68.130:8899/validateToken";
-async function App() {
-const response = await GetRqeust(baseURL);
-console.log(response.data);
+    useEffect(() => {
+        const checkToken = async () => {
+            const response = await axios.get(baseURL);
+            setIsValidToken(response.data.isValidToken);
+        };
+        checkToken();
+    }, []);
 
-  // axios.get(baseURL).then(
-  //   (response) => {
-  //     console.log(response.data)
-      if (response.data.isValidToken) {
-        const response_200 = (
-          <div className="App">
-              <Row>
+    if (isValidToken === null) {
+        return (
+            <Row>
                 <Col>
-                  <AppTopBar />
+                    <div>Loading...</div>
                 </Col>
-              </Row>
-              <Row>
-                <Col sm={2} className={["border-end"]} style={
-                  {
-                    height:"90vh",
-                    backgroundColor: "＃7FFFD4"
-                  }
-                }>
-                  <AppSideBar />
+            </Row>
+        );
+    }
+
+    if (!isValidToken) {
+        window.location.href = "http://192.168.68.130:8899/"; // Redirect if not valid
+        return null; // Prevent rendering anything else
+    }
+
+    return (
+        <div className="App">
+            <Row>
+                <Col>
+                    <AppTopBar />
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={2} className="border-end" style={{ height: "90vh", backgroundColor: "#7FFFD4" }}>
+                    <AppSideBar />
                 </Col>
                 <Col sm={8}>
-                  <AppContent />
+                    <AppContent />
                 </Col>
-                <Col sm={2} className={["border-start"]}>
-                  
-                </Col>
-              </Row>
-          </div>
-        );
-        return response_200;
-      } else {
-        alert();
-        window.location.href = "http://192.168.68.130:8899/"
-      }
+                <Col sm={2} className="border-start"></Col>
+            </Row>
+        </div>
+    );
 }
 
 export default App;
