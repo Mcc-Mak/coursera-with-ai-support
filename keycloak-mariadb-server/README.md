@@ -7,8 +7,8 @@ Run `bash INSTALL`
 |Role|User|Password|
 |---|---|---|
 |:green_circle: Administrator|admin|`admin`|
-|:large_blue_circle: User|ccmak|`ccmak`|
-|:large_blue_circle: User|benny|`benny`|
+|:red_circle: User|ccmak|`ccmak`|
+|:red_circle: User|benny|`benny`|
 #### MariaDB 
 |User@Host|Password|Grant|
 |---|---|---|
