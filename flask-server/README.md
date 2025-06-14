@@ -16,3 +16,5 @@ Run `python start.py`
   - Manual
     - [flask-oidc](https://flask-oidc.readthedocs.io/en/latest/)
     - [jinja2](https://docs.jinkan.org/docs/jinja2/)
+- GMail
+  - [App password](#)
