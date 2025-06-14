@@ -35,7 +35,7 @@ Server:
 ## Deployment
 Run `bash install.sh`
 ## Demonstration
-- :green_circle: [**demo-2025.06.14.mp4**](https://drive.google.com/file/d/1ebymGnPem0aC23wOTrkaC-koj77vbtmd/view?usp=drive_link)
+[![Demo Video](https://tse3.mm.bing.net/th?id=OIP.zNlf2Kt9Ma89zOAXdVj4pwHaE8&pid=Api&P=0&h=180)](https://drive.google.com/file/d/1ebymGnPem0aC23wOTrkaC-koj77vbtmd/view?usp=drive_link)
 ## Architecture
 |Structure|Status|Server Name|External Port|Internal Port|
 |---|---|---|---|---|
