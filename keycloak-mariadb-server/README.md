@@ -4,7 +4,7 @@ Run `bash INSTALL`
 ## Database
 ### User(s) and Role(s)
 #### Keycloak
-|Role|User|Password|Temporary?|
+|Role|User|Password|Temporary Password ?|
 |---|---|---|---|
 |:black_circle: Administrator|admin|`admin`|:white_check_mark:|
 |:white_circle: User|ccmak|`ccmak`|:x:|
