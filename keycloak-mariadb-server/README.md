@@ -4,11 +4,11 @@ Run `bash INSTALL`
 ## Database
 ### User(s) and Role(s)
 #### Keycloak
-|Role|User|Password|
-|---|---|---|
-|:black_circle: Administrator|admin|`admin`|
-|:white_circle: User|ccmak|`ccmak`|
-|:white_circle: User|benny|`benny`|
+|Role|User|Password|Temporary?|
+|---|---|---|---|
+|:black_circle: Administrator|admin|`admin`|:white_check_mark:|
+|:white_circle: User|ccmak|`ccmak`|:x:|
+|:white_circle: User|benny|`benny`|:x:|
 #### MariaDB 
 |User@Host|Password|Grant|
 |---|---|---|
