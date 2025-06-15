@@ -1,0 +1,38 @@
+
+= = = = = = = = = = = = = = = = = = = = = = = = =
+
+[0] Server-level...
+
+[INFO] IFC=docker0
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+
+[INFO] IFC=br-e1a33dfdd0bc
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global br-e1a33dfdd0bc
+
+
+= = = = = = = = = = = = = = = = = = = = = = = = =
+
+[1] Container-level...
+
+[INFO] DOCKER_CONTAINER=fs-reactjs-server
+IPAddress: "172.18.0.5"
+Gateway: "172.18.0.1"
+IPPrefixLen: 16
+
+[INFO] DOCKER_CONTAINER=bs-keycloak-server
+IPAddress: ""
+Gateway: ""
+IPPrefixLen: 0
+
+[INFO] DOCKER_CONTAINER=bs-keycloak-mariadb-server
+IPAddress: "172.18.0.3"
+Gateway: "172.18.0.1"
+IPPrefixLen: 16
+
+[INFO] DOCKER_CONTAINER=bs-flask-server
+IPAddress: "172.18.0.4"
+Gateway: "172.18.0.1"
+IPPrefixLen: 16
+
+= = = = = = = = = = = = = = = = = = = = = = = = =
+
