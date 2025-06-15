@@ -62,6 +62,8 @@ Run `bash install.sh`
       - `Keycloak Configuration`
     - Keycloak-mariadb-server
       - `MariaDB`
+## Bottle-neck
+- [Upload large file (e.g. >=100MB)](https://medium.com/@theyograjthakur/simplifying-large-file-uploads-with-react-and-node-js-a-step-by-step-guide-bd72967f57fe)
 ## Reference
 - GitHub Flavored Markdown (GHFM)
   - [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
