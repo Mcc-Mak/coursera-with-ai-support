@@ -6,11 +6,6 @@ from flask_cors import CORS, cross_origin
 from datetime import datetime
 import mariadb
 
-#
-# TODO: Incapable to refresh
-#
-# with open("client_secrets.json") as f: jsonClient = json.load(f)
-# g_CLIENT_SECRET = jsonClient["web"]["client_secret"]
 g_CLIENT_SECRET = "gik4U0mU0xQ2EGBOEQlv8zzyUSmr7U9M"
 
 app = Flask(__name__)
@@ -61,15 +56,15 @@ def login():
         # SQL (C)
         conn = mariadb.connect(
             host="172.18.0.5",
-            user="root",
-            password="admin",
+            user="keycloak",
+            password="keycloak",
             database="c_keycloak_storage"
         )
         conn.autocommit = False
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO c_keycloak_storage.access_token_storage (username, access_token, user_ip_addr) VALUES (?, ?, ?)",
-            (session["username"], session["access_token"], request.remote_addr)
+            "INSERT INTO c_keycloak_storage.access_token_storage (username, access_token, user_ip_addr, expiry_interval) VALUES (?, ?, ?, ?)",
+            (session["username"], session["access_token"], request.remote_addr, 60)
         )
         conn.commit()
         conn.close()
@@ -83,20 +78,14 @@ def logout():
     # SQL (D)
     conn = mariadb.connect(
         host="172.18.0.5",
-        user="root",
-        password="admin",
+        user="keycloak",
+        password="keycloak",
         database="c_keycloak_storage"
     )
     conn.autocommit = False
     cur = conn.cursor()
-    cur.execute(
-        "DELETE FROM c_keycloak_storage.access_token_storage WHERE username = ? AND user_ip_addr = ?",
-        (session["username"], request.remote_addr)
-    )
-    # cur.execute(
-    #     "DELETE FROM c_keycloak_storage.access_token_storage WHERE username = ? AND access_token = ? AND user_ip_addr = ?",
-    #     (session["username"], session["access_token"], request.remote_addr)
-    # )
+    sql_stmt = f"UPDATE c_keycloak_storage.access_token_storage SET is_active = 0 WHERE user_ip_addr = '{request.remote_addr}' AND is_active = 1"
+    cur.execute(sql_stmt)
     conn.commit()
     conn.close()
     # Clear the session
@@ -138,28 +127,17 @@ def isAuthenticated():
     try:
         conn = mariadb.connect(
             host="172.18.0.5",
-            user="root",
-            password="admin",
+            user="keycloak",
+            password="keycloak",
             database="c_keycloak_storage"
         )
         cur = conn.cursor()
-        # Per IP
-        cur.execute(
-            f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}'"
-        )
-        # # Per IP+USER+TOKEN
-        # cur.execute(
-        #     "SELECT * FROM c_keycloak_storage.access_token_storage WHERE username = ? AND access_token = ? AND user_ip_addr = ?",
-        #     (
-        #         session.get("username", ""),
-        #         session.get("access_token", ""),
-        #         request.remote_addr
-        #     )
-        # )
+        sql_stmt = f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}' AND CURRENT_TIMESTAMP < created_at + expiry_interval * 1000 AND is_active = 1"
+        cur.execute(sql_stmt)
         t_sessions = cur.fetchall()
-        result = 1 if len(t_sessions)>0 else 0
+        result = True if len(t_sessions)>0 else False
     except:
-        result = 0
+        result = False
     finally:
         conn.close()
     return result
@@ -170,10 +148,6 @@ def validateToken():
         return json.dumps({"isValidToken": True},indent=4)
     else:
         return json.dumps({"isValidToken": False},indent=4)
-
-# @app.route('/static/<path:path>')
-# def donwload_static(path):
-#     return send_from_directory('static', path)
 
 if __name__ == '__main__':
     # Auth
