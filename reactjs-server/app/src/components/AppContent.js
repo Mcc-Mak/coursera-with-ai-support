@@ -36,68 +36,71 @@ class AppContent extends React.Component {
             <div>
                 <Form className="d-flex flex-column justify-content-center">
                     <h6>What course will you box?</h6>
-                    <div class="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                         <Form.Control type="text" name="searchCourse"
                             placeholder="&#128269; Search your courses or templates"
-                            className={["w-75"]} />
+                            className={["w-75"]}
+                            style={{textIndent:"25%",textWrap:"pretty"}}/>
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                         <ListGroup key="sm" horizontal="sm" className="my-2">
-                            <ListGroup.Item variant="light" 
-                                style={this.iconStyle}
-                                onMouseOver={this.handleOnMouseOver}
-                                onMouseOut={this.handleOnMouseOut}>
-                                <FontAwesomeIcon icon={faWandSparkles} />
-                                <br/>
-                                <span style={{fontSize:8}}>AI</span>
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="light" 
-                                style={this.iconStyle}
-                                onMouseOver={this.handleOnMouseOver}
-                                onMouseOut={this.handleOnMouseOut}>
-                                <FontAwesomeIcon icon={faBriefcase} />
-                                <br/>
-                                <span style={{fontSize:8}}>Business</span>
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="light" 
-                                style={this.iconStyle}
-                                onMouseOver={this.handleOnMouseOver}
-                                onMouseOut={this.handleOnMouseOut}>
-                                <FontAwesomeIcon icon={faUserTie} />
-                                <br/>
-                                <span style={{fontSize:8}}>HR</span>
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="light" 
-                                style={this.iconStyle}
-                                onMouseOver={this.handleOnMouseOver}
-                                onMouseOut={this.handleOnMouseOut}>
-                                <FontAwesomeIcon icon={faBullhorn} />
-                                <br/>
-                                <span style={{fontSize:8}}>Martketing</span>
-                            </ListGroup.Item>
+                            {
+                                [
+                                    ["AI", <FontAwesomeIcon icon={faWandSparkles} />],
+                                    ["Business", <FontAwesomeIcon icon={faBriefcase} />],
+                                    ["HR", <FontAwesomeIcon icon={faUserTie} />],
+                                    ["Marketing", <FontAwesomeIcon icon={faBullhorn} />],
+                                ].map(
+                                    (e,i) => {
+                                        return (
+                                            <ListGroup.Item variant="light" 
+                                                key={i}
+                                                style={this.iconStyle}
+                                                onMouseOver={this.handleOnMouseOver}
+                                                onMouseOut={this.handleOnMouseOut}>
+                                                {e[1]}
+                                                <br/>
+                                                <span style={{fontSize:8}}>{e[0]}</span>
+                                            </ListGroup.Item>
+                                        );
+                                    }
+                                )
+                            }
                         </ListGroup>
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                         <Form.Select className={["w-75"]}
                                 aria-label="Default select example">
-                            <option>Open this select menu</option>
-                            <option value="1">English United States</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            {
+                                [
+                                    "Open this select menu",
+                                    "English United States",
+                                    "Two",
+                                    "Three",
+                                ].map((e,i)=>{
+                                    return (
+                                        <option value={i} key={i}>{e}</option>
+                                    );
+                                })
+                            }
                         </Form.Select>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <div key="default-radio-1" className="m-2">
-                            <Form.Check type="radio" id="radio-1" label="Step 1" />
-                        </div>
-                        <div key="default-radio-2" className="m-2">
-                            <Form.Check type="radio" id="radio-2" label="Step 2" />
-                        </div>
-                        <div key="default-radio-3" className="m-2">
-                            <Form.Check type="radio" id="radio-3" label="Step 3" />
-                        </div>
+                    <div className="d-flex justify-content-center">
+                        {
+                            [
+                                "1",
+                                "2",
+                                "3",
+                            ].map(e=>{
+                                return (
+                                    <div key={"default-radio-"+e} className="m-2">
+                                        <Form.Check type="radio" id={"radio-"+e} label={"Step "+e} />
+                                    </div>
+                                );
+                            })
+                        }
                     </div>
-                    <div class="d-flex justify-content-center pb-2">
+                    <div className="d-flex justify-content-center pb-2">
                         <Row className="w-75">
                             <Col sm={9} className="d-flex justify-content-start p-0">
                                 Describe your course
@@ -107,12 +110,12 @@ class AppContent extends React.Component {
                             </Col>
                         </Row>
                     </div>
-                    <div class="d-flex justify-content-center pb-2">
-                        <Form.Control type="text" name="AI-Bot"
+                    <div className="d-flex justify-content-center pb-2">
+                        <Form.Control as="textarea" name="AI-Bot"
                             placeholder="AI Bot"
                             className={["w-75"]} />
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                         <div className="d-flex justify-content-start w-75">
                             <Col sm={9} className="d-flex justify-content-start p-0">
                                 <Button style={{width:120,backgroundColor:"#c98acc"}}>

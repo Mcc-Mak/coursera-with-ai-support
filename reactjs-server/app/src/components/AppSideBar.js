@@ -60,20 +60,16 @@ class AppSideBar extends React.Component {
                 <Collapse in={this.state.open}>
                     <div id="example-collapse-text">
                         <hr/>
-                        <ListGroup>
-                            <ListGroup.Item variant="info" action  style={this.subMenu.style}>
-                                &nbsp;&nbsp;All
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="info" action  style={this.subMenu.style}>
-                                &nbsp;&nbsp;My Courses
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="info" action  style={this.subMenu.style}>
-                                &nbsp;&nbsp;Drafts
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="info" action  style={this.subMenu.style}>
-                                &nbsp;&nbsp;Certificates
-                            </ListGroup.Item>
-                            <ListGroup.Item variant="info" action  style={this.subMenu.style}>
+                        <ListGroup className="w-75">
+                            {
+                                [
+                                    "All",
+                                    "My Courses",
+                                    "Drafts",
+                                    "Certificates",
+                                ].map((e,i)=><ListGroup.Item variant="info" key={i} action style={this.subMenu.style}>&nbsp;&nbsp;{e}</ListGroup.Item>)
+                            }
+                            <ListGroup.Item variant="info" action style={this.subMenu.style}>
                                 <span>&nbsp;&nbsp;</span>
                                 <FontAwesomeIcon icon={faCirclePlus} />
                                 <span>&nbsp;&nbsp;Create</span>
