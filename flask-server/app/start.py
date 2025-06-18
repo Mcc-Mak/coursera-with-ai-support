@@ -110,23 +110,24 @@ def logout():
     return redirect(url_for("index"))
 
 def index():
+    print(isAuthorized())
     if isAuthenticated():
         return redirect(f"http://{WEBSERVER_HOSTNAME}:9001/")
     else:
         return render_template('login.html', msg=session.pop('error_message', None))
 
-# def isAuthorized():
-#     conn = mariadb.connect(
-#         host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
-#         user="keycloak",
-#         password="keycloak",
-#         database="c_keycloak_storage"
-#     )
-#     cur = conn.cursor()
-    
-#     sql_stmt = f"SELECT A.username, C.name, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(D.created_at) + D.expiry_interval FROM USER_ENTITY A INNER JOIN USER_ROLE_MAPPING B ON B.USER_ID = A.ID INNER JOIN KEYCLOAK_ROLE C ON C.ID = B.ROLE_ID INNER JOIN c_keycloak_storage.access_token_storage D ON D.username = A.username AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(D.created_at) + D.expiry_interval AND D.is_active = 1 WHERE D.user_ip_addr.username = '{request.remote_addr}'"
-#     cur.execute(sql_stmt)
-#     response = cur.fetchall()
+def isAuthorized():
+    conn = mariadb.connect(
+        host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
+        user="keycloak",
+        password="keycloak",
+        database="keycloak"
+    )
+    cur = conn.cursor()
+    sql_stmt = f"SELECT A.username, C.name FROM USER_ENTITY A INNER JOIN USER_ROLE_MAPPING B ON B.USER_ID = A.ID INNER JOIN KEYCLOAK_ROLE C ON C.ID = B.ROLE_ID INNER JOIN c_keycloak_storage.access_token_storage D ON D.username = A.username AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(D.created_at) + D.expiry_interval AND D.is_active = 1 WHERE D.user_ip_addr = '{request.remote_addr}' AND C.name like '{"coursera-price-plan"}%'"
+    cur.execute(sql_stmt)
+    response = cur.fetchall()
+    return response
 
 def isAuthenticated():
     # SQL (R)
