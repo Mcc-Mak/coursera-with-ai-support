@@ -5,9 +5,15 @@ IMAGE=bs-flask
 docker rm -f $CONTAINER 2>/dev/null
 docker rmi -f $IMAGE:latest 2>/dev/null
 
-
+KEYCLOAK_MARIADB_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" bs-keycloak-mariadb-server)
+KEYCLOAK_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" bs-keycloak-server)
+REACTJS_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" fs-reactjs-server)
 docker build \
+	--build-arg "KEYCLOAK_MARIADB_IP_ADDRESS="$KEYCLOAK_MARIADB_IP_ADDRESS \
+	--build-arg "KEYCLOAK_IP_ADDRESS="$KEYCLOAK_IP_ADDRESS \
+	--build-arg "REACTJS_IP_ADDRESS="$REACTJS_IP_ADDRESS \
 	-t $IMAGE:latest .
+
 if [[ $?! = 0 ]]
 then
         docker rmi $(docker images --filter dangling=true -aq) nil 2>/dev/null

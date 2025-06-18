@@ -19,8 +19,11 @@ app.config['OIDC_COOKIE_SECURE'] = False
 app.config['OIDC_CALLBACK_ROUTE'] = '/oidc/callback'
 app.config['OIDC_SCOPES'] = ['openid', 'email', 'profile']
 
-# HOSTNAME = "192.168.68.130"
-HOSTNAME = "192.168.56.101"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+WEBSERVER_HOSTNAME = "192.168.68.130"
 
 KEYCLOAK = {
     "REALM": "flask-sso-auth-service",
@@ -45,7 +48,7 @@ def login():
         'username': CLIENT_USERNAME,
         'password': CLIENT_PASSWORD
     }
-    token_url = f'http://{HOSTNAME}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/token'
+    token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/token'
     response = requests.post(token_url, data=payload)
     token_data = response.json()
     if response.status_code == 200:
@@ -55,7 +58,7 @@ def login():
         session['username'] = CLIENT_USERNAME
         # SQL (C)
         conn = mariadb.connect(
-            host="172.18.0.5",
+            host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
             user="keycloak",
             password="keycloak",
             database="c_keycloak_storage"
@@ -77,7 +80,7 @@ def login():
 def logout():
     # SQL (D)
     conn = mariadb.connect(
-        host="172.18.0.5",
+        host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
         user="keycloak",
         password="keycloak",
         database="c_keycloak_storage"
@@ -94,7 +97,7 @@ def logout():
     session.pop('username', None)
 
     # Optionally invalidate the refresh token with Keycloak
-    token_url = f'http://{HOSTNAME}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/logout'
+    token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/logout'
     payload = {
         'client_id': KEYCLOAK['CLIENT_ID'],
         'client_secret': KEYCLOAK['CLIENT_SECRET'],
@@ -102,37 +105,40 @@ def logout():
     }
     response = requests.post(token_url, data=payload)
     
+    session["error_message"] = "Logged out."
+    
     return redirect(url_for("index"))
 
 def index():
     if isAuthenticated():
-        # return render_template(
-        #     'index.html',
-        #     data={
-        #         "username": session.get("username",""),
-        #         "apis": [ "/api/GetProgramPreview", "/api/GetProgramInfo" ]
-        #     }
-        # )
-        return redirect("http://192.168.68.130:9001/")
+        return redirect(f"http://{WEBSERVER_HOSTNAME}:9001/")
     else:
-        if 'error_message' in session:
-            msg = session['error_message']
-            session.pop('error_message', None)
-        else:
-            msg = None
-        return render_template('login.html', msg=msg)
+        return render_template('login.html', msg=session.pop('error_message', None))
+
+# def isAuthorized():
+#     conn = mariadb.connect(
+#         host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
+#         user="keycloak",
+#         password="keycloak",
+#         database="c_keycloak_storage"
+#     )
+#     cur = conn.cursor()
+    
+#     sql_stmt = f"SELECT A.username, C.name, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(D.created_at) + D.expiry_interval FROM USER_ENTITY A INNER JOIN USER_ROLE_MAPPING B ON B.USER_ID = A.ID INNER JOIN KEYCLOAK_ROLE C ON C.ID = B.ROLE_ID INNER JOIN c_keycloak_storage.access_token_storage D ON D.username = A.username AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(D.created_at) + D.expiry_interval AND D.is_active = 1 WHERE D.user_ip_addr.username = '{request.remote_addr}'"
+#     cur.execute(sql_stmt)
+#     response = cur.fetchall()
 
 def isAuthenticated():
     # SQL (R)
     try:
         conn = mariadb.connect(
-            host="172.18.0.5",
+            host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
             user="keycloak",
             password="keycloak",
             database="c_keycloak_storage"
         )
         cur = conn.cursor()
-        sql_stmt = f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}' AND CURRENT_TIMESTAMP < created_at + expiry_interval * 1000 AND is_active = 1"
+        sql_stmt = f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}' AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(created_at) + expiry_interval AND is_active = 1"
         cur.execute(sql_stmt)
         t_sessions = cur.fetchall()
         result = True if len(t_sessions)>0 else False
