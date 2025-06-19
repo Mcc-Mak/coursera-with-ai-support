@@ -1,0 +1,36 @@
+.button-container {
+    position: fixed; /* Fixed position to stay in place while scrolling */
+    bottom: 20px; /* Distance from the bottom */
+    right: 0px; /* Distance from the right */
+    z-index: 1000; /* Ensure it appears above other elements */
+
+}
+
+
+@media (max-width: 768px) {
+    .button-container {
+        bottom: 10px; /* Adjust for smaller screens */
+        right: 10px;
+       
+    }
+}
+
+.small-card {
+    width: 750px; /* Set a specific width */
+    height: auto; /* Adjust height as needed */
+    padding: 0px; /* Adjust padding if necessary */
+    position: relative; /* Fixed position */
+    left: 0%; /* Distance from the left */
+    top: 0%; /* Distance from the top */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.custom-button {
+    padding: 15px 30px; /* Adjust padding for larger button */
+    font-size: 18px; /* Increase font size */
+}
+
+
+.custom-button:hover{
+    font-size: 1.6em; /* Enlarge text on hover */
+  }

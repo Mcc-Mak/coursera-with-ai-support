@@ -1,0 +1,269 @@
+.username
+{
+    text-align: left;
+    font-size: 2rem;
+
+}
+
+.inputtext
+{
+    
+    font-size: 1.5rem;
+
+}
+
+.inputbox {
+    padding-right: 20px; /* Reserve space for the button */
+    padding-left: 20px; /* Reserve space for the button */
+    /* border: thick double  rgba(211, 220, 50, 0.6); */
+    border:none;
+    outline: none; /* Remove outline on focus */
+    width: 90%; /* Full width */
+    height: 125px;
+    resize: none; /* Prevent resizing */
+    box-shadow: none; /* Optional: remove any box shadow */
+    
+    /* flex-grow: 1; */
+}
+.inputbutton {
+    right:0px; 
+    top: 0px;
+    width: 200px; /* Width of the button */
+    height: 125px; /* Height of the button */
+
+    /* border-radius: 50%; Circular shape */
+    background-color: #007bff;
+    
+    color: white; /* Icon color */
+    border: none; /* No border */
+   
+    cursor: pointer;
+    margin-left: -0px; /* Adjust to eliminate the gap */
+    margin-top: -0px; /* Adjust to eliminate the gap */
+
+  
+}
+
+.inputbutton:hover {
+    background-color: #f10d0d; /* Button color */
+}
+
+.usericon {
+    border-radius: 50%; /* Make the image circular */
+    width: 50px; /* Smaller width */
+    height: 50px; /* Smaller height */
+    margin: 5px; /* Margin around the image */
+}
+
+.usersection
+{
+    background-color:transparent; /* Set background color to blue */
+    padding: 20px; 
+    /* border-radius: 50%; Make the image circular */
+    /* left: 30px; */
+    margin-left: -20px; /* Adjust to eliminate the gap */
+
+    
+   
+
+
+}
+
+
+
+
+.dialogue {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; Use kebab-case for property names */
+    /* justify-content: center;  */
+}
+
+
+.inputsection
+{
+
+  flex: 1;
+
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 3rem;
+
+
+
+}
+
+
+.conversation_area{
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    width: 800px; /* Smaller width */
+    height: 1000px; /* Smaller height */
+    background-color: white;
+    align-items: stretch;
+    
+}
+
+
+
+
+
+/* Flex Layout */
+
+.flex {
+    display: flex;
+    height: 100%;
+    padding: 15px;
+    
+    background-color: #61a0f8;
+    /* row | row-reverse | column | column-reverse; */
+    flex-direction: column;
+  }
+  
+  .item {
+    flex: 1;
+    background-color:#61a0f8;
+    /* margin: 5px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1rem;
+    
+  }
+  
+  .flex-2 {
+    padding-top: 50%;
+    padding-bottom: 50%;
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    background-color:#61a0f8;
+  }
+  
+
+
+
+
+  .messages {
+    flex: 1; /* Make this section grow to fill available space */
+    /* padding: 15px; */
+    overflow-y: auto; /* Enable scrolling */
+    background-color: #61a0f8;
+
+
+    width: 100%; /* Set a fixed width */
+    height: 100%; /* Set a fixed height */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 8px; /* Optional rounded corners */
+   
+    padding: 10px; /* Optional padding */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e1f5fe; /* Light blue background for messages */
+    text-align: right; /* Align text to the left */
+  
+}
+
+.reply_message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #3884f0; /* Light blue background for messages */
+    text-align: left; /* Align text to the left */
+  
+}
+
+.dialogue-container {
+    display: flex;
+    flex-direction: column;
+    padding:0;
+    border: 1px solid #0b0d0e;
+    border-radius: 8px;
+    overflow: hidden; /* Hide overflow */
+    background-color: #f9f9f9;
+    height: 30vh;
+    /* width:20vw; */
+}
+
+
+.chatbot_name_label
+{
+    display: inline-block; 
+    background-color: rgba(255, 255, 0, 0.5); /* Semi-transparent yellow */
+    padding: 5px 5px; /* Padding around the label */
+    border-radius: 10px; /* Rounded corners */
+    z-index: 1; /* Behind the text */
+    width:8vw;
+}
+
+.username_label
+{
+    display: inline-block; /* To fit the size of the text */
+    background: linear-gradient(to left, rgba(255, 255, 0, 0.5), rgba(255, 255, 0, 0.5));
+    padding: 5px 5px; /* Padding around the label */
+    border-radius: 10px; /* Rounded corners */
+    z-index: 1; /* Behind the text */
+    width:8vw;
+    
+    right: 0; /* Align to the right */
+    
+}
+
+
+
+.clear-button {
+    
+    background-color: rgb(74, 74, 84); /* Blue background */
+    color: white; /* White text color */
+    border: none;
+    border-radius: 50%; /* Make it circular */
+    width: 30px; /* Width of the button */
+    height: 30px; /* Height of the button */
+    cursor: pointer;
+    display: flex; /* Centering the cross */
+    align-items: center; /* Centering the cross vertically */
+    justify-content: center; /* Centering the cross horizontally */
+    font-size: 18px; /* Adjust size as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+  }
+  .clear-button:hover {
+    background-color: red; /* Change to a darker blue on hover */
+  }
+
+  /* .buttonSection
+  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; 
+    height: 6.4vh;
+    padding: 50px 10px;
+  } */
+
+  .buttonSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* White background color */
+    height: 10%; /* Set height as a percentage of the parent container */
+    padding: 7% 0; /* Responsive padding */
+    box-sizing: border-box; /* Include padding in the total width/height */
+  
+}
+  
+  @media (max-width: 768px) {
+    .buttonSection {
+      height: 2vh; /* Adjust height for smaller screens */
+      padding: 5% 0; /* Increase padding for smaller screens */
+    }
+  }

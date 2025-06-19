@@ -1,0 +1,32 @@
+.nb {
+    height: 100vh; /* Full height */
+    width: 15vw; /* Set width for the vertical navbar */
+    position: fixed; /* Fix to the left side */
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    z-index: 1000; /* Ensure it stays above other content */
+
+}
+
+.ctn {
+    padding-left: 0; /* Remove default padding */
+    top: 100px; /* Remove default padding */
+    display: flex;
+    height: 100%;
+    padding: 15px;
+    
+    /* row | row-reverse | column | column-reverse; */
+    flex-direction: column;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    top:60px;
+}
+@media (max-width: 768px) {
+    .nb {
+        width: 100%; /* Full width on smaller screens */
+        height: auto; /* Auto height */
+    }
+}

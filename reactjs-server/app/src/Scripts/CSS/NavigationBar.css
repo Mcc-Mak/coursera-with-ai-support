@@ -1,0 +1,47 @@
+.logout-button
+{
+
+    background-color: #dc3545; /* Bootstrap danger color */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+
+
+}
+
+.Nav.Link:hover {
+    background-color: #0c0b0b; /* Dark background color on hover */
+    color: rgb(151, 142, 142); /* Optional: change text color for better contrast */
+}
+
+.NavDropdown.Item:hover {
+    background-color: #0c0b0b; /* Dark background color on hover */
+    color: rgb(151, 142, 142); /* Optional: change text color for better contrast */
+}
+
+.settings-button {
+    background-color: white; /* Set background color to white */
+    border: 1px solid #ccc; /* Optional: add a border for better visibility */
+    color: black; /* Set text color */
+}
+
+.settings-button:hover {
+    background-color: #f0f0f0; /* Optional: light gray on hover */
+}
+
+/* Add this to your CSS file */
+.nav-link, .settings-button {
+    transition: font-size 0.3s ease; /* Smooth transition */
+  }
+  
+  .nav-link:hover, .settings-button:hover {
+    font-size: 1.6em; /* Enlarge text on hover */
+  }
+
+
+  

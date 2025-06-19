@@ -1,0 +1,62 @@
+
+@keyframes gradientAnimation {
+    0% {
+      background-color: rgb(176, 175, 175);
+      background-position: 0% 50%;
+    }
+    50% {
+        background-color: rgb(214, 211, 211);
+      background-position: 100% 50%;
+    }
+    70% {
+        background-color: rgb(255, 255, 255);
+      background-position: 0% 50%;
+    }
+    100% {
+        background-color: rgb(247, 246, 246);
+      background-position: 0% 50%;
+    }
+
+   
+  }
+
+  .loading-animation
+  {
+
+    position: fixed; /* Fixed positioning to cover the viewport */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  z-index: -1; /* Ensure it's behind other elements */
+  /* background: linear-gradient(270deg, #ff7e5f, #feb47b); */
+  background-size: 400% 400%; /* Size of the gradient */
+  animation: gradientAnimation 5s ease infinite; /* Animation duration and timing */
+
+  
+  }
+  
+  
+  .animated-background {
+    
+   
+    z-index: -1; /* Ensure it's behind other elements */
+    height: 100vh; /* Full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* animation: gradientAnimation 5s ease ; 
+    background: linear-gradient(270deg, #ff7e5f, #feb47b); */
+    background-size: 400% 400%; /* Size of the gradient */
+    opacity: 1; /* Start transparent */
+    transition: opacity 1s ease; /* Transition for fade effect */
+  }
+
+  .background-gif {
+    
+    width: 100%; /* Make the GIF cover the width */
+    height: 100%; /* Make the GIF cover the height */
+   
+    object-fit: cover; /* Ensure the GIF maintains aspect ratio */
+   
+  }
