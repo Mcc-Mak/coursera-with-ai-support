@@ -2,8 +2,8 @@
 CONTAINER=bs-keycloak-mariadb-server
 IMAGE=bs-keycloak-mariadb
 
-docker rm -f $CONTAINER 2>/dev/null
-docker rmi -f $IMAGE:latest 2>/dev/null
+#docker rm -f $CONTAINER 2>/dev/null
+#docker rmi -f $IMAGE:latest 2>/dev/null
 
 docker build \
 	-t $IMAGE:latest .

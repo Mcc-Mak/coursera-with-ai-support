@@ -2,8 +2,8 @@
 CONTAINER=fs-reactjs-server
 IMAGE=fs-reactjs
 
-docker rm -f $CONTAINER 2>/dev/null
-docker rmi -f $IMAGE:latest 2>/dev/null
+#docker rm -f $CONTAINER 2>/dev/null
+#docker rmi -f $IMAGE:latest 2>/dev/null
 
 docker build -t $IMAGE:latest .
 if [[ $? != 0 ]]

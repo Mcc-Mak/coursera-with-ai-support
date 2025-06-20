@@ -19,6 +19,7 @@ SRV="reactjs-server"
 printf "\n\n[INFO] Installing '%s'..." "$SRV"
 cd $SRV
 bash INSTALL
+cd..
 
 SRV="flask-server"
 printf "\n\n[INFO] Installing '%s'..." "$SRV"
