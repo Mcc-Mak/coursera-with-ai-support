@@ -5,7 +5,11 @@ IMAGE=bs-keycloak
 docker rm -f $CONTAINER 2>/dev/null
 docker rmi -f $IMAGE:latest 2>/dev/null
 
-KEYCLOAK_MARIADB_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" bs-keycloak-mariadb-server)
+FLASK_IP_ADDRESS=172.18.0.2
+KEYCLOAK_MARIADB_IP_ADDRESS=172.18.0.3
+KEYCLOAK_IP_ADDRESS=172.18.0.4
+REACTJS_IP_ADDRESS=172.18.0.5
+# KEYCLOAK_MARIADB_IP_ADDRESS=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" bs-keycloak-mariadb-server)
 docker build \
 	--build-arg "KEYCLOAK_MARIADB_IP_ADDRESS="$KEYCLOAK_MARIADB_IP_ADDRESS \
 	-t $IMAGE:latest .
@@ -18,6 +22,7 @@ fi
 docker run -itd \
 	--name $CONTAINER \
 	--hostname $CONTAINER \
+	--ip "172.18.0.4" \
 	--workdir "/opt/keycloak" \
 	--restart always \
 	--network "sso_auth_server" \

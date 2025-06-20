@@ -10,41 +10,29 @@ import React, { useState } from 'react';
 import CreateCourse from '../Scripts/CreateCourse';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
-
-
 function Create() {
   const [animationActive, setAnimationActive] = useState(false);
   return (
-
-
-      <div className="App" >
-       {animationActive &&( 
-         <>
-         <NavigationBar />
-         </>
-       )}
-       
-      <AnimatedBackground 
-      onAnimationComplete={setAnimationActive} 
-     
-       />
-      {animationActive &&( 
-         <>
-         <Chatbot />
-         </>
-       )}
-     {animationActive &&( 
-        
+    <div className="App" >
+      {animationActive && (
+        <>
+          <NavigationBar />
+        </>
+      )}
+      <AnimatedBackground
+        onAnimationComplete={setAnimationActive}
+      />
+      {animationActive && (
+        <>
+          <Chatbot />
+        </>
+      )}
+      {animationActive && (
         <div className='grid-overlay '>
-        <CreateCourse />
+          <CreateCourse />
         </div>
       )}
-
-
-
-      </div>
-    
+    </div>
   );
 }
 

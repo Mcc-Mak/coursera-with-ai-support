@@ -79,18 +79,28 @@ def login():
 @cross_origin()
 def logout():
     # SQL (D)
-    conn = mariadb.connect(
-        host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
-        user="keycloak",
-        password="keycloak",
-        database="c_keycloak_storage"
-    )
-    conn.autocommit = False
-    cur = conn.cursor()
-    sql_stmt = f"UPDATE c_keycloak_storage.access_token_storage SET is_active = 0 WHERE user_ip_addr = '{request.remote_addr}' AND is_active = 1"
-    cur.execute(sql_stmt)
-    conn.commit()
-    conn.close()
+    try:
+        conn = mariadb.connect(
+            host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
+            user="keycloak",
+            password="keycloak",
+            database="c_keycloak_storage"
+        )
+        try:
+            conn.autocommit = False
+            cur = conn.cursor()
+            sql_stmt = f"UPDATE c_keycloak_storage.access_token_storage SET is_active = 0 WHERE user_ip_addr = '{request.remote_addr}' AND is_active = 1"
+            cur.execute(sql_stmt)
+            conn.commit()
+        except:
+            print("[start.py] DB - Logout failed!")
+        finally:
+            conn.close()
+        return response
+    except:
+        print("[start.py] DB - Connection failed!")
+        return None
+
     # Clear the session
     session.pop('access_token', None)
     session.pop('refresh_token', None)
@@ -117,17 +127,26 @@ def index():
         return render_template('login.html', msg=session.pop('error_message', None))
 
 def isAuthorized():
-    conn = mariadb.connect(
-        host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
-        user="keycloak",
-        password="keycloak",
-        database="keycloak"
-    )
-    cur = conn.cursor()
-    sql_stmt = f"SELECT A.username, C.name FROM USER_ENTITY A INNER JOIN USER_ROLE_MAPPING B ON B.USER_ID = A.ID INNER JOIN KEYCLOAK_ROLE C ON C.ID = B.ROLE_ID INNER JOIN c_keycloak_storage.access_token_storage D ON D.username = A.username AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(D.created_at) + D.expiry_interval AND D.is_active = 1 WHERE D.user_ip_addr = '{request.remote_addr}' AND C.name like '{"coursera-price-plan"}%'"
-    cur.execute(sql_stmt)
-    response = cur.fetchall()
-    return response
+    try:
+        conn = mariadb.connect(
+            host=os.getenv('KEYCLOAK_MARIADB_IP_ADDRESS'),
+            user="keycloak",
+            password="keycloak",
+            database="keycloak"
+        )
+        try:
+            cur = conn.cursor()
+            sql_stmt = f"SELECT A.username, C.name FROM USER_ENTITY A INNER JOIN USER_ROLE_MAPPING B ON B.USER_ID = A.ID INNER JOIN KEYCLOAK_ROLE C ON C.ID = B.ROLE_ID INNER JOIN c_keycloak_storage.access_token_storage D ON D.username = A.username AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(D.created_at) + D.expiry_interval AND D.is_active = 1 WHERE D.user_ip_addr = '{request.remote_addr}' AND C.name like '{"coursera-price-plan"}%'"
+            cur.execute(sql_stmt)
+            response = cur.fetchall()
+        except:
+            print("[start.py] DB - Authorization failed!")
+        finally:
+            conn.close()
+        return response
+    except:
+        print("[start.py] DB - Connection failed!")
+        return None
 
 def isAuthenticated():
     # SQL (R)
@@ -138,16 +157,20 @@ def isAuthenticated():
             password="keycloak",
             database="c_keycloak_storage"
         )
-        cur = conn.cursor()
-        sql_stmt = f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}' AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(created_at) + expiry_interval AND is_active = 1"
-        cur.execute(sql_stmt)
-        t_sessions = cur.fetchall()
-        result = True if len(t_sessions)>0 else False
+        try:
+            cur = conn.cursor()
+            sql_stmt = f"SELECT * FROM c_keycloak_storage.access_token_storage WHERE user_ip_addr = '{request.remote_addr}' AND UNIX_TIMESTAMP() < UNIX_TIMESTAMP(created_at) + expiry_interval AND is_active = 1"
+            cur.execute(sql_stmt)
+            t_sessions = cur.fetchall()
+            response = True if len(t_sessions)>0 else False
+        except:
+            response = False
+        finally:
+            conn.close()
+        return response
     except:
-        result = False
-    finally:
-        conn.close()
-    return result
+        print("[start.py] DB - Connection failed!")
+        return None
 
 @cross_origin()
 def validateToken():

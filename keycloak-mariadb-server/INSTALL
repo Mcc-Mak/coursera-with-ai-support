@@ -16,6 +16,7 @@ fi
 docker run -itd \
 	--name $CONTAINER \
 	--hostname $CONTAINER \
+	--ip "172.18.0.3" \
 	--workdir "/var/www/html/" \
 	--restart always \
 	--network "sso_auth_server" \

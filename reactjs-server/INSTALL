@@ -15,6 +15,7 @@ fi
 docker run -itd \
     --name $CONTAINER \
     --hostname $CONTAINER \
+    --ip "172.18.0.5" \
     --volume "./app:/app:z" \
 	--restart always \
 	--network "sso_auth_server" \
