@@ -92,32 +92,30 @@ def logout():
             sql_stmt = f"UPDATE c_keycloak_storage.access_token_storage SET is_active = 0 WHERE user_ip_addr = '{request.remote_addr}' AND is_active = 1"
             cur.execute(sql_stmt)
             conn.commit()
+            
+            # Clear the session
+            session.pop('access_token', None)
+            session.pop('refresh_token', None)
+            session.pop('username', None)
+
+            # Optionally invalidate the refresh token with Keycloak
+            token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/logout'
+            payload = {
+                'client_id': KEYCLOAK['CLIENT_ID'],
+                'client_secret': KEYCLOAK['CLIENT_SECRET'],
+                'refresh_token': session.get('refresh_token')
+            }
+            response = requests.post(token_url, data=payload)
+            
+            session["error_message"] = "Logged out."
         except:
             print("[start.py] DB - Logout failed!")
         finally:
             conn.close()
-        return response
     except:
         print("[start.py] DB - Connection failed!")
-        return None
-
-    # Clear the session
-    session.pop('access_token', None)
-    session.pop('refresh_token', None)
-    session.pop('username', None)
-
-    # Optionally invalidate the refresh token with Keycloak
-    token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/logout'
-    payload = {
-        'client_id': KEYCLOAK['CLIENT_ID'],
-        'client_secret': KEYCLOAK['CLIENT_SECRET'],
-        'refresh_token': session.get('refresh_token')
-    }
-    response = requests.post(token_url, data=payload)
-    
-    session["error_message"] = "Logged out."
-    
-    return redirect(url_for("index"))
+    finally:
+        return redirect(url_for("index"))
 
 def index():
     print(isAuthorized())
