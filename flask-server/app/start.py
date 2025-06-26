@@ -40,15 +40,25 @@ def login():
     data = request.form
     CLIENT_USERNAME = data.get('username')
     CLIENT_PASSWORD = data.get('password')
+    OTP_TOKEN = data.get('otp_token')
 
+    # payload = {
+    #     'grant_type': 'password',
+    #     'client_id': KEYCLOAK['CLIENT_ID'],
+    #     'client_secret': KEYCLOAK['CLIENT_SECRET'],
+    #     'username': CLIENT_USERNAME,
+    #     'password': CLIENT_PASSWORD
+    # }
+    # token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/token'
     payload = {
         'grant_type': 'password',
         'client_id': KEYCLOAK['CLIENT_ID'],
         'client_secret': KEYCLOAK['CLIENT_SECRET'],
         'username': CLIENT_USERNAME,
-        'password': CLIENT_PASSWORD
+        'password': CLIENT_PASSWORD,
+        'otp': OTP_TOKEN,
     }
-    token_url = f'http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/token'
+    token_url = f"http://{os.getenv('KEYCLOAK_IP_ADDRESS')}:8080/realms/{KEYCLOAK['REALM']}/protocol/openid-connect/token"
     response = requests.post(token_url, data=payload)
     token_data = response.json()
     if response.status_code == 200:
