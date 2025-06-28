@@ -38,7 +38,7 @@ Run `bash install.sh`
 ##### Basic Auth (Demo @ 2025.06.14)
 [![](https://image.freepik.com/free-vector/authentication-icon-simple-element-illustration-authentication-concept-symbol-design-can-be-used-web-mobile_159242-6853.jpg)](https://drive.google.com/file/d/1ebymGnPem0aC23wOTrkaC-koj77vbtmd/view?usp=drive_link)
 ##### Auth With OTP (Demo @ 2025.06.27)
-[![](https://tenten.vn/tin-tuc/wp-content/uploads/2023/07/otp-1024x768.jpg)](https://drive.google.com/file/d/1tZKym8_fn9Uz7se8qbjm4_qN9tqZlBV2/view?usp=drive_link)
+[![](https://tenten.vn/tin-tuc/wp-content/uploads/2023/07/otp-1024x768.jpg)](https://drive.google.com/file/d/1n0EFCNf9TyXyWlYx3yeCJEy_RMa-4N7f/view?usp=drive_link)
 ## Docker
 |Container Name|IPv4 Address|
 |---|---|
