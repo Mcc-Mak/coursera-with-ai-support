@@ -2,8 +2,8 @@
 CONTAINER=bs-agentic-ai-owl-server
 IMAGE=bs-agentic-ai-owl
 
-docker rm -f $CONTAINER 2>/dev/null
-docker rmi -f $IMAGE:latest 2>/dev/null
+# docker rm -f $CONTAINER 2>/dev/null
+# docker rmi -f $IMAGE:latest 2>/dev/null
 
 docker build \
 	-t $IMAGE:latest .
@@ -27,5 +27,3 @@ then
 	docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null;
 	exit;
 fi
-
-bash access
