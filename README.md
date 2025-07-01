@@ -53,6 +53,7 @@ Run `bash install.sh`
 |Frontend|:orange_circle:|ReactJS-server|Port 9001|Port 3000|
 |Backend|:green_circle:|Flask-server|Port 8899|Port 5000|
 |Backend|:green_circle:|Keycloak-server|Port 8080<br/>(n.a.)<br/>(n.a.)|Port 8080<br/>Port 8443<br/>Port 9000|
+|Backend|:green_circle:|Owl-server|Port 19001|Port $${\color{red}???}$$|
 |Database|:green_circle:|Keycloak-MariaDB-server|(n.a.)<br/>(n.a.)|Port 3306<br/>Port 33060|
 ## Tech. Stack
 - Environment
@@ -79,3 +80,4 @@ Run `bash install.sh`
 - GitHub Flavored Markdown (GHFM)
   - [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
   - [Emoji](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+  - [Font Color](https://stackoverflow.com/questions/11509830/how-to-add-color-to-githubs-readme-md-file)
