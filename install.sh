@@ -30,4 +30,10 @@ cd $SRV
 bash INSTALL
 cd ..
 
+SRV="owl-server"
+printf "\n\n[INFO] Installing '%s'..." "$SRV"
+cd $SRV
+bash INSTALL
+cd ..
+
 docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null

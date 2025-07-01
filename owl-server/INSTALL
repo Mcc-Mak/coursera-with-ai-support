@@ -1,0 +1,31 @@
+
+CONTAINER=bs-agentic-ai-owl-server
+IMAGE=bs-agentic-ai-owl
+
+docker rm -f $CONTAINER 2>/dev/null
+docker rmi -f $IMAGE:latest 2>/dev/null
+
+docker build \
+	-t $IMAGE:latest .
+if [[ $?! = 0 ]]
+then
+	docker rmi $(docker images --filter dangling=true -aq) nil 2>/dev/null
+	exit;
+fi
+
+docker run -itd \
+	--name $CONTAINER \
+	--hostname $CONTAINER \
+	--ip "172.18.0.100" \
+	--workdir "/app/owl-server/" \
+	--restart always \
+	--network "sso_auth_server" \
+	-p "19001:8080" \
+	$IMAGE:latest
+if [[ $?! = 0 ]]
+then
+	docker rm $(docker ps -aq --filter status=exited) nil 2>/dev/null;
+	exit;
+fi
+
+bash access

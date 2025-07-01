@@ -45,6 +45,7 @@ Run `bash install.sh`
 |bs-flask-server|172.18.0.2|
 |bs-keycloak-mariadb-server|172.18.0.3|
 |bs-keycloak-server|172.18.0.4|
+|bs-agentic-ai-owl-server|172.18.0.100|
 |fs-reactjs-server|172.18.0.5|
 ## Architecture
 |Structure|Status|Server Name|External Port|Internal Port|
